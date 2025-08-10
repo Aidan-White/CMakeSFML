@@ -1,0 +1,62 @@
+#ifndef GAME_HPP
+#define GAME_HPP
+
+#include <SFML/Graphics.hpp>
+#include <list>
+#include <filesystem>
+#include <iterator>
+#include <iostream>
+
+namespace fs = std::filesystem;
+
+// look up "pre-compiled headers" to compile things faster
+
+struct TextureHolder    // holds textures, along with the paths of their original images
+{
+    std::string imagePath;
+    sf::Texture texture;
+};
+
+class Game
+{
+    private:
+    // variables
+    // window
+    sf::RenderWindow* _window;
+    sf::VideoMode _videoMode;
+
+    // game objects
+
+    std::vector<TextureHolder> _textures;
+    sf::RectangleShape _luigi;
+
+    // private funcitons
+    void initVariables();
+    void initWindow();
+    void initLuigi();
+    std::vector<TextureHolder> initTextures();
+
+    public:
+        // constructors / destructors
+        Game();
+        ~Game();
+        
+
+
+        // accessors
+        const bool running() const;
+        
+        sf::Texture* getTexture(std::string path, std::vector<TextureHolder> &textureList); 
+        /* 
+        - searches for and returns a pointer to a texture, or returns nullptr
+        - always type directories in this format: "d1/d2/d3", NOT "d1\\d2\\d3\\" when using this function
+        */
+
+        // functions
+        void pollEvents();
+        void moveLuigi();
+        void update();
+        void render();
+};
+
+#endif
