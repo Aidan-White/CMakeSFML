@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <iterator>
 #include <iostream>
+#include "tilemap.hpp"
 
 namespace fs = std::filesystem;
 
@@ -28,13 +29,18 @@ class Game
     // game objects
 
     std::vector<TextureHolder> _textures;
-    sf::RectangleShape _luigi;
+    TileMap _map;
+    // std::vector<sf::Sprite*> enemies;
+    sf::Sprite* _luigi;
 
     // private funcitons
     void initVariables();
     void initWindow();
+    void initTileMap();
     void initLuigi();
     std::vector<TextureHolder> initTextures();
+
+
 
     public:
         // constructors / destructors
