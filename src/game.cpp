@@ -5,7 +5,7 @@
 void Game::initVariables()
 {
     this->_window = nullptr;
-    
+    _luigiLastPos = sf::Vector2f (0.f, 0.f);
 }
 
 void Game::initWindow()
@@ -51,7 +51,7 @@ void Game::initLuigi()
 {
     _luigi = new sf::Sprite(*getTexture("../../images/purpleLuigi.png", _textures));
     _luigi->setTexture(*getTexture("../../images/purpleLuigi.png", _textures));
-    _luigi->setPosition(sf::Vector2f(300.f, 300.f));
+    _luigi->setPosition(sf::Vector2f(0.f, 0.f));
     _luigi->setScale(sf::Vector2f(0.1f, 0.1f));
 }
 
@@ -76,6 +76,13 @@ std::vector<TextureHolder> Game::initTextures()   // NOTE: some images fail to l
     return THVector;
 }
 
+void Game::initCamera()
+{
+    _camera.setCenter(_luigi->getPosition());
+    _camera.setSize(sf::Vector2f(_window->getSize()));
+    _window->setView(_camera);
+}
+
 // PUBLIC
 
 // constructors / destructors
@@ -87,6 +94,7 @@ Game::Game()
     initTileMap();
     _textures = initTextures();
     initLuigi();
+    initCamera();
 }
 
 Game::~Game()
@@ -139,6 +147,8 @@ void Game::pollEvents()
 
 void Game::moveLuigi()
 {
+    _luigiLastPos = _luigi->getPosition(); // saves luigi's last position before moving him
+
     // Horizontal Movement
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right))
     {
@@ -160,14 +170,26 @@ void Game::moveLuigi()
     }
 }
 
+void Game::moveCamera()
+{
+    sf::Vector2f offset = _luigi->getPosition() - _luigiLastPos;
+    _camera.move(offset);
+    _window->setView(_camera);
+}
+
 void Game::update() // updates game logic
 {
     pollEvents();
     moveLuigi();
+    moveCamera();
 }
 
-void Game::render() // draws updated frame (clear, draw, display)
+void Game::render()
 {
+    /*
+        - draws updated frame (clear, draw, display)
+        - the order in which things are drawn determines which "layer" each sprite is on
+    */
     _window->clear(sf::Color(0, 0, 0, 255));
 
     // draw stuff here

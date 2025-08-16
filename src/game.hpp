@@ -22,12 +22,15 @@ class Game
 {
     private:
     // variables
+    sf::Vector2f _luigiLastPos;
+
     // window
     sf::RenderWindow* _window;
     sf::VideoMode _videoMode;
 
     // game objects
 
+    sf::View _camera;
     std::vector<TextureHolder> _textures;
     TileMap _map;
     // std::vector<sf::Sprite*> enemies;
@@ -39,6 +42,7 @@ class Game
     void initTileMap();
     void initLuigi();
     std::vector<TextureHolder> initTextures();
+    void initCamera();
 
 
 
@@ -61,6 +65,7 @@ class Game
         // functions
         void pollEvents();
         void moveLuigi();
+        void moveCamera();
         void update();
         void render();
 };
