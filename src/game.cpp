@@ -5,7 +5,6 @@
 void Game::initVariables()
 {
     this->_window = nullptr;
-    _luigiLastPos = sf::Vector2f (0.f, 0.f);
 }
 
 void Game::initWindow()
@@ -47,12 +46,9 @@ void Game::initTileMap()
     }
 }
 
-void Game::initLuigi()
+void Game::initPlayer()
 {
-    _luigi = new sf::Sprite(*getTexture("../../images/purpleLuigi.png", _textures));
-    _luigi->setTexture(*getTexture("../../images/purpleLuigi.png", _textures));
-    _luigi->setPosition(sf::Vector2f(0.f, 0.f));
-    _luigi->setScale(sf::Vector2f(0.1f, 0.1f));
+    _player = new Player(*getTexture("../../images/purpleLuigi.png", _textures));
 }
 
 std::vector<TextureHolder> Game::initTextures()   // NOTE: some images fail to load, "Image not of any known type, or corrupt"
@@ -78,7 +74,7 @@ std::vector<TextureHolder> Game::initTextures()   // NOTE: some images fail to l
 
 void Game::initCamera()
 {
-    _camera.setCenter(_luigi->getPosition());
+    _camera.setCenter(_player->getPosition());
     _camera.setSize(sf::Vector2f(_window->getSize()));
     _window->setView(_camera);
 }
@@ -93,14 +89,14 @@ Game::Game()
     initWindow();
     initTileMap();
     _textures = initTextures();
-    initLuigi();
+    initPlayer();
     initCamera();
 }
 
 Game::~Game()
 {
     delete this->_window;
-    delete _luigi;
+    delete _player;
 }
 
 // Accessors
@@ -145,34 +141,9 @@ void Game::pollEvents()
     }
 }
 
-void Game::moveLuigi()
-{
-    _luigiLastPos = _luigi->getPosition(); // saves luigi's last position before moving him
-
-    // Horizontal Movement
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right))
-    {
-        _luigi->move(sf::Vector2f(-3.f, 0.f));
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left))
-    {
-        _luigi->move(sf::Vector2f(3.f, 0.f));
-    }
-
-    // Vertical Movement
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down))
-    {
-        _luigi->move(sf::Vector2f(0.f, -3.f));
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up))
-    {
-        _luigi->move(sf::Vector2f(0.f, 3.f));
-    }
-}
-
 void Game::moveCamera()
 {
-    sf::Vector2f offset = _luigi->getPosition() - _luigiLastPos;
+    sf::Vector2f offset = _player->getPosition() - _player->getLastPosition();
     _camera.move(offset);
     _window->setView(_camera);
 }
@@ -180,7 +151,8 @@ void Game::moveCamera()
 void Game::update() // updates game logic
 {
     pollEvents();
-    moveLuigi();
+    _player->move();
+    _player->rotateGun(_window);
     moveCamera();
 }
 
@@ -194,7 +166,7 @@ void Game::render()
 
     // draw stuff here
     _window->draw(_map);
-    _window->draw(*_luigi);
+    _player->drawPlayer(_window);
 
     _window->display();
 }

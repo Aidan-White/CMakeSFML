@@ -7,6 +7,7 @@
 #include <iterator>
 #include <iostream>
 #include "tilemap.hpp"
+#include "player.hpp"
 
 namespace fs = std::filesystem;
 
@@ -22,7 +23,7 @@ class Game
 {
     private:
     // variables
-    sf::Vector2f _luigiLastPos;
+    // sf::Vector2f _luigiLastPos;
 
     // window
     sf::RenderWindow* _window;
@@ -34,13 +35,15 @@ class Game
     std::vector<TextureHolder> _textures;
     TileMap _map;
     // std::vector<sf::Sprite*> enemies;
-    sf::Sprite* _luigi;
+    // sf::Sprite* _luigi;
+    Player* _player;
 
     // private funcitons
     void initVariables();
     void initWindow();
     void initTileMap();
-    void initLuigi();
+    // void initLuigi();
+    void initPlayer();
     std::vector<TextureHolder> initTextures();
     void initCamera();
 
@@ -64,7 +67,6 @@ class Game
 
         // functions
         void pollEvents();
-        void moveLuigi();
         void moveCamera();
         void update();
         void render();
