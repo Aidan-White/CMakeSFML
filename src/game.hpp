@@ -23,7 +23,6 @@ class Game
 {
     private:
     // variables
-    // sf::Vector2f _luigiLastPos;
 
     // window
     sf::RenderWindow* _window;
@@ -42,7 +41,6 @@ class Game
     void initVariables();
     void initWindow();
     void initTileMap();
-    // void initLuigi();
     void initPlayer();
     std::vector<TextureHolder> initTextures();
     void initCamera();
@@ -53,8 +51,6 @@ class Game
         // constructors / destructors
         Game();
         ~Game();
-        
-
 
         // accessors
         const bool running() const;

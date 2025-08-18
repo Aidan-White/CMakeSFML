@@ -127,11 +127,43 @@ void Player::move()
 void Player::rotateGun(sf::RenderWindow* window)    // rotates gun relative to player depending on mouse position
 {
     sf::Angle gunAngle = sf::degrees(getGunAngle(window));
+    _gunAngle = gunAngle;
     _gun.setRotation(gunAngle);
 }
 
-void Player::drawPlayer(sf::RenderWindow* window)
+void Player::shootGun()     // creates bullets if mouse is pressed
+{
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+    {
+        Bullet newBullet(_gunAngle, this->getPosition());
+        _bullets.push_back(newBullet);
+    }
+}
+
+void Player::moveBullets()      // moves bullets on screen
+{
+    for (int i = 0; i < _bullets.size(); i++)
+    {
+        _bullets[i].move();
+        // later, implement deletion system here!!!
+    }
+}
+
+void Player::drawPlayer(sf::RenderWindow* window)   // draws all objects within player
 {
     window->draw(*_luigiSprite);
     window->draw(_gun);
+    for (int i = 0; i < _bullets.size(); i++)
+    {
+        window->draw(_bullets[i].getBullet());
+    }
+}
+
+void Player::update(sf::RenderWindow* window)
+{
+    // updates all logic within player
+    this->move();
+    this->rotateGun(window);
+    this->shootGun();
+    this->moveBullets();
 }

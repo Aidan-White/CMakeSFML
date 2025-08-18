@@ -151,8 +151,7 @@ void Game::moveCamera()
 void Game::update() // updates game logic
 {
     pollEvents();
-    _player->move();
-    _player->rotateGun(_window);
+    _player->update(_window);
     moveCamera();
 }
 
