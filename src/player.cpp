@@ -8,6 +8,7 @@ void Player::initVariables()
 {
     _hp = 10;
     _lastPos = sf::Vector2f (0.f, 0.f);
+    _lastShot = sf::milliseconds(0);
 }
 
 void Player::initLuigi(sf::Texture texture)
@@ -95,6 +96,7 @@ float Player::getGunAngle(sf::RenderWindow* window)
 
     // Functions
 
+
 void Player::move()
 {
     _lastPos = this->getPosition(); // saves luigi's last position before moving him
@@ -131,21 +133,29 @@ void Player::rotateGun(sf::RenderWindow* window)    // rotates gun relative to p
     _gun.setRotation(gunAngle);
 }
 
-void Player::shootGun()     // creates bullets if mouse is pressed
+void Player::shootGun(sf::Time elapsedTime)     // creates bullets if mouse is pressed
 {
-    if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+    _lastShot += elapsedTime;
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && _lastShot >= sf::milliseconds(250))
     {
         Bullet newBullet(_gunAngle, this->getPosition());
         _bullets.push_back(newBullet);
+        _lastShot = sf::milliseconds(0);
     }
 }
 
-void Player::moveBullets()      // moves bullets on screen
+void Player::moveBullets(sf::Time elapsedTime)      // moves bullets on screen
 {
     for (int i = 0; i < _bullets.size(); i++)
     {
-        _bullets[i].move();
-        // later, implement deletion system here!!!
+        if (_bullets[i].isAlive())
+        {
+            _bullets[i].move(elapsedTime);
+        }
+        else
+        {
+            _bullets.erase(_bullets.begin() + i);
+        }
     }
 }
 
@@ -159,11 +169,11 @@ void Player::drawPlayer(sf::RenderWindow* window)   // draws all objects within 
     }
 }
 
-void Player::update(sf::RenderWindow* window)
+void Player::update(sf::RenderWindow* window, sf::Time elapsedTime)
 {
     // updates all logic within player
     this->move();
     this->rotateGun(window);
-    this->shootGun();
-    this->moveBullets();
+    this->shootGun(elapsedTime);
+    this->moveBullets(elapsedTime);
 }

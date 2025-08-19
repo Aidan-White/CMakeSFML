@@ -64,7 +64,7 @@ class Game
         // functions
         void pollEvents();
         void moveCamera();
-        void update();
+        void update(sf::Time elapsedTime);
         void render();
 };
 

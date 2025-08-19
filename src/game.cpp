@@ -148,10 +148,10 @@ void Game::moveCamera()
     _window->setView(_camera);
 }
 
-void Game::update() // updates game logic
+void Game::update(sf::Time elapsedTime) // updates game logic
 {
     pollEvents();
-    _player->update(_window);
+    _player->update(_window, elapsedTime);
     moveCamera();
 }
 

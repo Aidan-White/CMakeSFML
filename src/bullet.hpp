@@ -7,6 +7,9 @@ class Bullet
 {
     private: 
 
+    bool _alive;
+    sf::Time _lifetime;
+    
     sf::CircleShape _bullet;
     sf::Angle _angle;
 
@@ -16,7 +19,9 @@ class Bullet
 
     sf::CircleShape getBullet();
 
-    void move();
+    bool isAlive();
+
+    void move(sf::Time elapsedTime);
 
 };
 

@@ -13,6 +13,7 @@ class Player
     sf::Vector2f _lastPos;
     sf::Texture _luigiTexture;
     sf::Angle _gunAngle;
+    sf::Time _lastShot;
 
     // objects
     sf::Sprite* _luigiSprite;
@@ -40,10 +41,10 @@ class Player
     // functions
     void move();
     void rotateGun(sf::RenderWindow* window);
-    void shootGun();
-    void moveBullets();
+    void shootGun(sf::Time elapsedTime);
+    void moveBullets(sf::Time elapsedTime);
     void drawPlayer(sf::RenderWindow* window);
-    void update(sf::RenderWindow* window);
+    void update(sf::RenderWindow* window, sf::Time elapsedTime);
 
 };
 
