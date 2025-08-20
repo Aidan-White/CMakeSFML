@@ -102,24 +102,24 @@ void Player::move()
     _lastPos = this->getPosition(); // saves luigi's last position before moving him
 
     // Horizontal Movement
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right))
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A)) && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D)))
     {
         _luigiSprite->move(sf::Vector2f(-3.f, 0.f));
         _gun.move(sf::Vector2f(-3.f, 0.f));
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left))
+    else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D)) && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A)))
     {
         _luigiSprite->move(sf::Vector2f(3.f, 0.f));
         _gun.move(sf::Vector2f(3.f, 0.f));
     }
 
     // Vertical Movement
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down))
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W)) && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::S)))
     {
         _luigiSprite->move(sf::Vector2f(0.f, -3.f));
         _gun.move(sf::Vector2f(0.f, -3.f));
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up))
+    else if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::S)) && (!sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W)))
     {
         _luigiSprite->move(sf::Vector2f(0.f, 3.f));
         _gun.move(sf::Vector2f(0.f, 3.f));

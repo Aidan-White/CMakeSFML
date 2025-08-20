@@ -6,8 +6,8 @@
 #include <filesystem>
 #include <iterator>
 #include <iostream>
-#include "tilemap.hpp"
 #include "player.hpp"
+#include "level.hpp"
 
 namespace fs = std::filesystem;
 
@@ -32,15 +32,13 @@ class Game
 
     sf::View _camera;
     std::vector<TextureHolder> _textures;
-    TileMap _map;
+    Level _level;
     // std::vector<sf::Sprite*> enemies;
-    // sf::Sprite* _luigi;
     Player* _player;
 
     // private funcitons
     void initVariables();
     void initWindow();
-    void initTileMap();
     void initPlayer();
     std::vector<TextureHolder> initTextures();
     void initCamera();

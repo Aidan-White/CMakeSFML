@@ -18,6 +18,10 @@ src/game.cpp
 src/tilemap.cpp
 src/player.cpp
 src/bullet.cpp
+src/level.hpp
+src/level.cpp
+src/wall.hpp
+src/wall.cpp
 )
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics SFML::Audio SFML::Window SFML::System)
